@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.proyecto_firebase"
+    namespace = "com.example.proyecto_firebase100"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
