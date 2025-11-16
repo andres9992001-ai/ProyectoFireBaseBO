@@ -1,45 +1,44 @@
 {
   "project_info": {
-    "project_number": "92161582590",
-    "project_id": "proyecto2-c01ae",
-    "storage_bucket": "proyecto2-c01ae.firebasestorage.app"
+    "project_number": "469712672356",
+    "project_id": "dam-proyectofirebase",
+    "storage_bucket": "dam-proyectofirebase.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:92161582590:android:f48f1dafe20d0c89ae0caf",
+        "mobilesdk_app_id": "1:469712672356:android:0a162347c1cca6f3387171",
         "android_client_info": {
           "package_name": "com.example.proyecto_firebase"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "469712672356-8p4c91dgrcn10603r1vtkpmblecjmocl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.proyecto_firebase",
+            "certificate_hash": "858f5059b7646efa700be907451cc01d017e10a1"
+          }
+        },
+        {
+          "client_id": "469712672356-n1v2prkforarqmr3g3rl5j3l52vlafan.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyBWNLr8Hh-kTdmwEuvXoBpWYb4Os0j1QOc"
+          "current_key": "AIzaSyCRYXGQ41cTilIaz_fAkLPzaQ05l487IEI"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:92161582590:android:e0a6edb760dfaa5bae0caf",
-        "android_client_info": {
-          "package_name": "com.example.proyecto_firebase100"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBWNLr8Hh-kTdmwEuvXoBpWYb4Os0j1QOc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "469712672356-n1v2prkforarqmr3g3rl5j3l52vlafan.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
