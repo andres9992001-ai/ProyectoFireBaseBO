@@ -7,11 +7,30 @@ class FsService {
   }
 
   //Agregar Evento
-  Future<void> agregarEvento(String titulo, String lugar, String categoria, String autor, DateTime fecha) async {
+  Future<void> agregarEvento(
+    String titulo,
+    String lugar,
+    String categoria,
+    String autor,
+    DateTime fecha,
+  ) async {
     try {
-      await FirebaseFirestore.instance.collection('eventos').doc().set({'autor': autor, 'titulo': titulo, 'categoria': categoria, 'lugar': lugar, 'fecha': fecha});
+      await FirebaseFirestore.instance.collection('eventos').doc().set({
+        'autor': autor,
+        'titulo': titulo,
+        'categoria': categoria,
+        'lugar': lugar,
+        'fecha': fecha,
+      });
     } catch (e) {
       rethrow;
     }
+  }
+
+  //obtener todos los productos
+
+  //borrar un producto
+  Future<void> borrarProducto(String id) {
+    return FirebaseFirestore.instance.collection('productos').doc(id).delete();
   }
 }

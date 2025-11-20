@@ -9,12 +9,12 @@ class AuthGoogleServices {
     // Asegura que siempre se muestre la cuenta de Google
     try {
       await GoogleSignIn.instance.initialize();
-      // Usar constructor nombrado y pasar serverClientId en Android si lo requiere
 
       final GoogleSignInAccount? googleUser = await GoogleSignIn.instance
           .authenticate();
-      if (googleUser == null) return null;
-
+      if (googleUser == null) {
+        return null;
+      }
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
@@ -30,4 +30,3 @@ class AuthGoogleServices {
     }
   }
 }
-// ...existing code...

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:proyecto_firebase/pages/agregar_evento.dart';
 import 'package:proyecto_firebase/pages/login_pages.dart';
 
 class AuthWrapper extends StatelessWidget {
@@ -15,7 +16,8 @@ class AuthWrapper extends StatelessWidget {
         }
 
         if (snapshot.hasData) {
-          //return HomePage();
+          print("USER LOGEADO: ${snapshot.data?.email}");
+          return AgregarEvento();
         }
 
         return LoginPages();
