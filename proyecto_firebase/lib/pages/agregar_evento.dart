@@ -18,7 +18,9 @@ class _AgregarEventoState extends State<AgregarEvento> {
   DateTime? _fechaReunion;
   TextEditingController tituloCtrl = TextEditingController();
   TextEditingController lugarCtrl = TextEditingController();
-  String userEmail = FirebaseAuth.instance.currentUser?.email ?? "test@gmail.com";
+  // solicita a firebase el usuario logeado
+  String userEmail = FirebaseAuth.instance.currentUser!.email.toString();
+  //"hello@gmail.com"; //Should Be Obtained FirebaseAuth.instance.currentUser
 
   @override
   void dispose() {
