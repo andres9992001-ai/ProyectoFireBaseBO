@@ -18,9 +18,7 @@ class _AgregarEventoState extends State<AgregarEvento> {
   DateTime? _fechaReunion;
   TextEditingController tituloCtrl = TextEditingController();
   TextEditingController lugarCtrl = TextEditingController();
-  // solicita a firebase el usuario logeado
-  String userEmail = FirebaseAuth.instance.currentUser!.email.toString();
-  //"hello@gmail.com"; //Should Be Obtained FirebaseAuth.instance.currentUser
+  String userEmail = FirebaseAuth.instance.currentUser?.email ?? "test@gmail.com";
 
   @override
   void dispose() {
@@ -93,12 +91,30 @@ class _AgregarEventoState extends State<AgregarEvento> {
                       if (!snapshot.hasData) {
                         return Center(child: CircularProgressIndicator());
                       }
-                      final categorias = snapshot.data!.docs.map((doc) => doc['nombreCategoria'] as String).toList();
+                      final categorias = snapshot.data!.docs;
                       return DropdownButtonFormField<String>(
                         value: _categoriaElejida,
                         hint: Text("Selecciona categoría"),
-                        items: categorias.map((categoria) {
-                          return DropdownMenuItem<String>(value: categoria, child: Text(categoria));
+                        items: categorias.map((doc) {
+                          String nombreCategoria = doc['nombreCategoria'];
+                          String imagen = doc['imagen'];
+                          return DropdownMenuItem<String>(
+                            value: nombreCategoria,
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'assets/images/$imagen.jpg',
+                                  width: 24,
+                                  height: 20,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Icon(Icons.info);
+                                  },
+                                ),
+                                SizedBox(width: 5),
+                                Text(nombreCategoria),
+                              ],
+                            ),
+                          );
                         }).toList(),
                         onChanged: (newValue) {
                           setState(() {
@@ -175,6 +191,13 @@ class _AgregarEventoState extends State<AgregarEvento> {
                             return;
                           }
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Evento Agregado")));
+                          formKey.currentState!.reset();
+                          tituloCtrl.clear();
+                          lugarCtrl.clear();
+                          setState(() {
+                            _categoriaElejida = null;
+                            _fechaReunion = null;
+                          });
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error de Agregado: ${e.toString()}")));
                         }
