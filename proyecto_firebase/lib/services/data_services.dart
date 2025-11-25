@@ -28,7 +28,7 @@ class FsService {
   }
 
   Stream<QuerySnapshot> eventos() {
-    return FirebaseFirestore.instance.collection('eventos').snapshots();
+    return FirebaseFirestore.instance.collection('eventos').orderBy('fecha', descending: false).snapshots();
   }
 
   //obtener un evento con su detalle
@@ -41,3 +41,4 @@ class FsService {
     return FirebaseFirestore.instance.collection('eventos').doc(id).delete();
   }
 }
+
