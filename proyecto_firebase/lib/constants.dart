@@ -17,10 +17,6 @@ const int kCafe = 0xFF7A1919;
 
 const int kGreyDark = 0xff0f0e0c;
 
-bool verEmail = false;
-
-String idEvento = "";
-
 class ColorsBackGround {
   int kGreyDark = 0xff0f0e0c;
 }

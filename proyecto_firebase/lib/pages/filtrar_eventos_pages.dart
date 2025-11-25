@@ -16,6 +16,16 @@ class FiltrarEventosPages extends StatefulWidget {
 
 class _FiltrarEventosPagesState extends State<FiltrarEventosPages> {
   @override
+  //refrescar datos
+  void initState() {
+    super.initState();
+    cargarDatos();
+  }
+
+  void cargarDatos() {
+    print("Cargando datos...");
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -31,7 +41,7 @@ class _FiltrarEventosPagesState extends State<FiltrarEventosPages> {
                     return Center(child: CircularProgressIndicator());
                   }
                   var listaFiltrada = snapshot.data!.docs
-                      .where((doc) => doc['autor'].toString() == widget.idUser)
+                      .where((doc) => doc['autor'].trim() == widget.idUser)
                       .toList();
 
                   if (listaFiltrada.isEmpty) {
@@ -46,15 +56,15 @@ class _FiltrarEventosPagesState extends State<FiltrarEventosPages> {
                   }
                   return ListView.separated(
                     separatorBuilder: (context, index) => Divider(),
-                    itemCount: snapshot.data!.docs.length,
+                    itemCount: listaFiltrada.length,
                     itemBuilder: (context, index) {
-                      var eventos = snapshot.data!.docs[index];
+                      var eventos = listaFiltrada[index];
                       return Slidable(
                         endActionPane: ActionPane(
                           motion: ScrollMotion(),
                           children: [
                             if (FirebaseAuth.instance.currentUser!.email ==
-                                eventos['autor'].toString())
+                                eventos['autor'].trim())
                               SlidableAction(
                                 backgroundColor: Color(
                                   ColorsLetters().kWhiteCream,
@@ -66,7 +76,7 @@ class _FiltrarEventosPagesState extends State<FiltrarEventosPages> {
                                           .instance
                                           .currentUser!
                                           .email ==
-                                      eventos['autor'].toString()) {
+                                      eventos['autor'].trim()) {
                                     await FsService().borrarEventos(eventos.id);
                                   }
                                 },

@@ -18,7 +18,8 @@ class _AgregarEventoState extends State<AgregarEvento> {
   DateTime? _fechaReunion;
   TextEditingController tituloCtrl = TextEditingController();
   TextEditingController lugarCtrl = TextEditingController();
-  String userEmail = FirebaseAuth.instance.currentUser?.email ?? "test@gmail.com";
+  String userEmail =
+      FirebaseAuth.instance.currentUser?.email ?? "test@gmail.com";
 
   @override
   void dispose() {
@@ -227,7 +228,9 @@ class _AgregarEventoState extends State<AgregarEvento> {
                           if (!context.mounted) {
                             return;
                           }
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Evento Agregado")));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Evento Agregado")),
+                          );
                           formKey.currentState!.reset();
                           tituloCtrl.clear();
                           lugarCtrl.clear();

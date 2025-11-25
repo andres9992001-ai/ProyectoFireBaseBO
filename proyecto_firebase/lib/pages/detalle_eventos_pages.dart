@@ -6,8 +6,13 @@ import 'package:proyecto_firebase/constants.dart';
 import 'package:proyecto_firebase/services/data_services.dart';
 
 class DetalleEventosPages extends StatefulWidget {
-  const DetalleEventosPages({super.key, required this.eventoId});
+  const DetalleEventosPages({
+    super.key,
+    required this.eventoId,
+    required this.boolId,
+  });
   final String eventoId;
+  final bool boolId;
 
   @override
   State<DetalleEventosPages> createState() => _DetalleEventosPagesState();
@@ -15,6 +20,15 @@ class DetalleEventosPages extends StatefulWidget {
 
 class _DetalleEventosPagesState extends State<DetalleEventosPages> {
   @override
+  void initState() {
+    super.initState();
+    cargarDatos();
+  }
+
+  void cargarDatos() {
+    print("Cargando datos...");
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -35,11 +49,7 @@ class _DetalleEventosPagesState extends State<DetalleEventosPages> {
                         return Center(child: CircularProgressIndicator());
                       }
                       var evento = snapshot.data!;
-                      verEmail =
-                          FirebaseAuth.instance.currentUser!.email ==
-                          evento['autor'].toString();
 
-                      idEvento = evento.id;
                       return Container(
                         margin: EdgeInsets.only(top: 30),
                         padding: EdgeInsets.all(10),
@@ -100,7 +110,7 @@ class _DetalleEventosPagesState extends State<DetalleEventosPages> {
               ),
             ),
           ),
-          if (verEmail)
+          if (widget.boolId)
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               padding: EdgeInsets.all(15),
@@ -120,7 +130,7 @@ class _DetalleEventosPagesState extends State<DetalleEventosPages> {
                   shadowColor: Colors.transparent,
                 ),
                 onPressed: () async {
-                  await FsService().borrarEventos(idEvento);
+                  await FsService().borrarEventos(widget.eventoId);
                   Navigator.pop(context);
                 },
                 //Navigator.pop(context),

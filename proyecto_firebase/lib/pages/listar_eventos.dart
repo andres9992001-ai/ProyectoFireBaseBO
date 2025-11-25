@@ -21,6 +21,15 @@ class ListarEventos extends StatefulWidget {
 
 class _ListarEventosState extends State<ListarEventos> {
   @override
+  void initState() {
+    super.initState();
+    cargarDatos();
+  }
+
+  void cargarDatos() {
+    print("Cargando datos...");
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -42,7 +51,6 @@ class _ListarEventosState extends State<ListarEventos> {
                     Text(
                       "[ ${FirebaseAuth.instance.currentUser!.email ?? "none@User"} ]",
                       style: TextStyle(
-                        fontFamily: "VT323",
                         fontSize: 10,
                         color: Color(ColorsBackGround().kGreyDark),
                       ),
@@ -91,7 +99,10 @@ class _ListarEventosState extends State<ListarEventos> {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       var eventos = snapshot.data!.docs[index];
-
+                      bool verEmail =
+                          FirebaseAuth.instance.currentUser!.email ==
+                          eventos['autor'];
+                      print("valor${verEmail}");
                       return OutlinedButton(
                         style: OutlinedButton.styleFrom(
                           padding: EdgeInsets.zero, // No altera el tamaño
@@ -103,8 +114,10 @@ class _ListarEventosState extends State<ListarEventos> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  DetalleEventosPages(eventoId: eventos.id),
+                              builder: (context) => DetalleEventosPages(
+                                eventoId: eventos.id,
+                                boolId: verEmail,
+                              ),
                             ),
                           );
                         }, //Navigator.pop(context),
@@ -193,6 +206,9 @@ class _ListarEventosState extends State<ListarEventos> {
                 shadowColor: Colors.transparent,
               ),
               onPressed: () {
+                print(
+                  "valor email ${FirebaseAuth.instance.currentUser?.email ?? "test@gmail.com"}",
+                );
                 Navigator.push(
                   context,
                   MaterialPageRoute(
