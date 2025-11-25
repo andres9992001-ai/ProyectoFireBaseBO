@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_firebase/constants.dart';
 import 'package:proyecto_firebase/pages/agregar_evento.dart';
+import 'package:proyecto_firebase/pages/listar_eventos.dart';
 import 'package:proyecto_firebase/pages/placeholder.dart';
 
 class PaginaPrincipal extends StatefulWidget {
@@ -17,12 +18,15 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Administrador de Eventos", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-          backgroundColor: Color(kCeleste),
+          title: Text(
+            "Administrador de Eventos",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          ),
+          backgroundColor: Color(ColorsBackGround().kGreyDark),
           actions: [
             IconButton(
-              color: Color(kRojo),
-              icon: Icon(Icons.arrow_back),
+              color: Color(ColorsLetters().kWhiteCream),
+              icon: Icon(Icons.exit_to_app),
               onPressed: () {
                 //Navigator.pop(context); There is no List Events Page Yet
               },
@@ -31,18 +35,18 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
           bottom: TabBar(
             tabAlignment: TabAlignment.center,
             isScrollable: true,
-            labelColor: Color(kRojo),
-            unselectedLabelColor: Color(kAzulMarino),
-            indicatorColor: Color(kDorado),
+            labelColor: Color(ColorsLetters().kWhiteCream),
+            unselectedLabelColor: Color(ColorsLetters().kWhiteCream),
+            indicatorColor: Color(ColorsLetters().kWhiteCream),
             tabs: [
-              Tab(icon: Icon(Icons.event), text: "Lista de Eventos"),
-              Tab(icon: Icon(Icons.edit_calendar), text: "Agregar Evento"),
+              Tab(text: "[ Lista de Eventos ]"),
+              Tab(text: "[ Agregar Evento ]"),
             ],
           ),
         ),
         body: Padding(
           padding: EdgeInsetsGeometry.all(5),
-          child: TabBarView(children: [Placeholder1(), AgregarEvento()]),
+          child: TabBarView(children: [ListarEventos(), AgregarEvento()]),
         ),
       ),
     );

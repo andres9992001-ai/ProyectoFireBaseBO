@@ -1,80 +1,25 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:proyecto_firebase/constants.dart';
-import 'package:proyecto_firebase/pages/detalle_eventos_pages.dart';
-import 'package:proyecto_firebase/pages/filtrar_eventos_pages.dart';
-import 'package:proyecto_firebase/services/data_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:proyecto_firebase/services/data_services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:proyecto_firebase/constants.dart';
+import 'package:proyecto_firebase/services/data_services.dart';
 
-class ListarEventos extends StatefulWidget {
-  const ListarEventos({super.key});
+class FiltrarEventosPages extends StatefulWidget {
+  const FiltrarEventosPages({super.key, required this.idUser});
+  final String idUser;
 
   @override
-  State<ListarEventos> createState() => _ListarEventosState();
+  State<FiltrarEventosPages> createState() => _FiltrarEventosPagesState();
 }
 
-class _ListarEventosState extends State<ListarEventos> {
+class _FiltrarEventosPagesState extends State<FiltrarEventosPages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Color(ColorsLetters().kWhiteCream),
-              //border: Border.all(color: , width: 2),
-              borderRadius: BorderRadius.circular(3),
-            ),
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(Icons.co_present_outlined),
-                    Text(
-                      "[ ${FirebaseAuth.instance.currentUser!.email ?? "none@User"} ]",
-                      style: TextStyle(
-                        fontFamily: "VT323",
-                        fontSize: 10,
-                        color: Color(ColorsBackGround().kGreyDark),
-                      ),
-                    ),
-                  ],
-                ),
-                Divider(
-                  thickness: 1,
-                  color: Color(ColorsBackGround().kGreyDark),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    Image.network(
-                      width: 30,
-                      height: 30,
-                      FirebaseAuth.instance.currentUser!.photoURL ??
-                          "None/image",
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          " @${FirebaseAuth.instance.currentUser!.displayName}",
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
           Expanded(
             child: Padding(
               padding: EdgeInsets.all(10),
@@ -85,29 +30,59 @@ class _ListarEventosState extends State<ListarEventos> {
                       snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   }
+                  var listaFiltrada = snapshot.data!.docs
+                      .where((doc) => doc['autor'].toString() == widget.idUser)
+                      .toList();
 
+                  if (listaFiltrada.isEmpty) {
+                    return Center(
+                      child: Text(
+                        "No tienes eventos ingresados",
+                        style: TextStyle(
+                          color: Color(ColorsLetters().kWhiteCream),
+                        ),
+                      ),
+                    );
+                  }
                   return ListView.separated(
                     separatorBuilder: (context, index) => Divider(),
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       var eventos = snapshot.data!.docs[index];
+                      return Slidable(
+                        endActionPane: ActionPane(
+                          motion: ScrollMotion(),
+                          children: [
+                            if (FirebaseAuth.instance.currentUser!.email ==
+                                eventos['autor'].toString())
+                              SlidableAction(
+                                backgroundColor: Color(
+                                  ColorsLetters().kWhiteCream,
+                                ),
+                                label: ' [ Borrar ]',
 
-                      return OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          padding: EdgeInsets.zero, // No altera el tamaño
-                          side: BorderSide.none, // Sin borde
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
+                                onPressed: (context) async {
+                                  if (FirebaseAuth
+                                          .instance
+                                          .currentUser!
+                                          .email ==
+                                      eventos['autor'].toString()) {
+                                    await FsService().borrarEventos(eventos.id);
+                                  }
+                                },
+                              ),
+                            if (FirebaseAuth.instance.currentUser!.email !=
+                                eventos['autor'].toString())
+                              SlidableAction(
+                                backgroundColor: Color(
+                                  ColorsLetters().kWhiteCream,
+                                ),
+                                label: ' [ No Eres el autor ]',
+
+                                onPressed: (context) async {},
+                              ),
+                          ],
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  DetalleEventosPages(eventoId: eventos.id),
-                            ),
-                          );
-                        }, //Navigator.pop(context),
                         child: Container(
                           padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
@@ -173,7 +148,6 @@ class _ListarEventosState extends State<ListarEventos> {
               ),
             ),
           ),
-
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             padding: EdgeInsets.all(15),
@@ -192,21 +166,10 @@ class _ListarEventosState extends State<ListarEventos> {
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.transparent,
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FiltrarEventosPages(
-                      idUser:
-                          FirebaseAuth.instance.currentUser?.email ??
-                          "test@gmail.com",
-                    ),
-                  ),
-                );
-              },
+              onPressed: () => Navigator.pop(context),
               //Navigator.pop(context),
               child: Text(
-                "Filtrar Por Usuario",
+                "volver",
                 style: TextStyle(color: Color(ColorsBackGround().kGreyDark)),
               ),
             ),

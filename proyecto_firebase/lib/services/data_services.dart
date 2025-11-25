@@ -31,9 +31,12 @@ class FsService {
     return FirebaseFirestore.instance.collection('eventos').snapshots();
   }
 
-  //obtener todos los productos
+  //obtener un evento con su detalle
+  Stream<DocumentSnapshot<Map<String, dynamic>>> eventoDetalle(String id) {
+    return FirebaseFirestore.instance.collection('eventos').doc(id).get();
+  }
 
-  //borrar un producto
+  //borrar un evento
   Future<void> borrarEventos(String id) {
     return FirebaseFirestore.instance.collection('eventos').doc(id).delete();
   }

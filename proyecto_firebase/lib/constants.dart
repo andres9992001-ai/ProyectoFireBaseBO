@@ -14,3 +14,17 @@ const int kVerde = 0xFF21CD07;
 const int kCeleste = 0xFF00DAFF;
 //Cafte
 const int kCafe = 0xFF7A1919;
+
+const int kGreyDark = 0xff0f0e0c;
+
+bool verEmail = false;
+
+String idEvento = "";
+
+class ColorsBackGround {
+  int kGreyDark = 0xff0f0e0c;
+}
+
+class ColorsLetters {
+  int kWhiteCream = 0xffefe5c0;
+}

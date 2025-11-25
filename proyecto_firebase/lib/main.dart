@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:proyecto_firebase/auth_wrapper.dart';
+import 'package:proyecto_firebase/constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        scaffoldBackgroundColor: Color(ColorsBackGround().kGreyDark),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color(ColorsLetters().kWhiteCream),
+        ),
       ),
       home: AuthWrapper(),
     );
