@@ -27,8 +27,9 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
             IconButton(
               color: Color(ColorsLetters().kWhiteCream),
               icon: Icon(Icons.exit_to_app),
-              onPressed: () {
-                //Navigator.pop(context); There is no List Events Page Yet
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                await GoogleSignIn.instance.signOut();
               },
             ),
           ],
