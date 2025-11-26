@@ -1,8 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:proyecto_firebase/constants.dart';
 import 'package:proyecto_firebase/pages/agregar_evento.dart';
 import 'package:proyecto_firebase/pages/listar_eventos.dart';
-import 'package:proyecto_firebase/pages/placeholder.dart';
 
 class PaginaPrincipal extends StatefulWidget {
   const PaginaPrincipal({super.key});
@@ -20,7 +21,11 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
         appBar: AppBar(
           title: Text(
             "Administrador de Eventos",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+              color: Color(ColorsLetters().kWhiteCream),
+            ),
           ),
           backgroundColor: Color(ColorsBackGround().kGreyDark),
           actions: [
@@ -40,8 +45,8 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
             unselectedLabelColor: Color(ColorsLetters().kWhiteCream),
             indicatorColor: Color(ColorsLetters().kWhiteCream),
             tabs: [
-              Tab(text: "[ Lista de Eventos ]"),
-              Tab(text: "[ Agregar Evento ]"),
+              Tab(text: "Lista de Eventos"),
+              Tab(text: "Agregar Evento"),
             ],
           ),
         ),

@@ -50,8 +50,16 @@ class _AgregarEventoState extends State<AgregarEvento> {
                   ),
                   child: TextFormField(
                     controller: tituloCtrl,
+                    style: TextStyle(
+                      color: Color(ColorsLetters().kWhiteCream),
+                      fontSize: 20,
+                    ),
                     decoration: InputDecoration(
                       labelText: 'Titulo Evento',
+                      labelStyle: TextStyle(
+                        color: Color(ColorsLetters().kWhiteCream),
+                        fontSize: 20,
+                      ),
                       border: InputBorder.none,
                     ),
                     validator: (nombre) {
@@ -74,8 +82,16 @@ class _AgregarEventoState extends State<AgregarEvento> {
                   ),
                   child: TextFormField(
                     controller: lugarCtrl,
+                    style: TextStyle(
+                      color: Color(ColorsLetters().kWhiteCream),
+                      fontSize: 20,
+                    ),
                     decoration: InputDecoration(
                       labelText: 'Ubicacion Evento',
+                      labelStyle: TextStyle(
+                        color: Color(ColorsLetters().kWhiteCream),
+                        fontSize: 20,
+                      ),
                       border: InputBorder.none,
                     ),
                     validator: (nombre) {
@@ -105,7 +121,13 @@ class _AgregarEventoState extends State<AgregarEvento> {
                       final categorias = snapshot.data!.docs;
                       return DropdownButtonFormField<String>(
                         value: _categoriaElejida,
-                        hint: Text("Selecciona categoría"),
+                        hint: Text(
+                          "Selecciona categoría",
+                          style: TextStyle(
+                            color: Color(ColorsLetters().kWhiteCream),
+                            fontSize: 20,
+                          ),
+                        ),
                         items: categorias.map((doc) {
                           String nombreCategoria = doc['nombreCategoria'];
                           String imagen = doc['imagen'];
@@ -122,7 +144,10 @@ class _AgregarEventoState extends State<AgregarEvento> {
                                   },
                                 ),
                                 SizedBox(width: 5),
-                                Text(nombreCategoria),
+                                Text(
+                                  nombreCategoria,
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           );
@@ -153,12 +178,22 @@ class _AgregarEventoState extends State<AgregarEvento> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Color(ColorsLetters().kWhiteCream),
+                      fontSize: 20,
+                    ),
                     controller: TextEditingController(
                       text: _fechaReunion != null
                           ? "${_fechaReunion!.day}/${_fechaReunion!.month}/${_fechaReunion!.year}  ${_fechaReunion!.hour}:${_fechaReunion!.minute}"
                           : "",
                     ),
-                    decoration: InputDecoration(labelText: "Fecha y hora"),
+                    decoration: InputDecoration(
+                      labelText: "Fecha y hora",
+                      labelStyle: TextStyle(
+                        color: Color(ColorsLetters().kWhiteCream),
+                        fontSize: 20,
+                      ),
+                    ),
                     readOnly: true,
                     onTap: () async {
                       final date = await showDatePicker(
@@ -166,7 +201,7 @@ class _AgregarEventoState extends State<AgregarEvento> {
                         initialDate: DateTime.now().add(Duration(days: 7)),
                         firstDate: DateTime.now().add(
                           Duration(days: 7),
-                        ), // restrict calendar
+                        ), // restringe la fecha de 7 DIAS para adelante
                         lastDate: DateTime(2100),
                       );
                       if (date == null) {
@@ -209,15 +244,30 @@ class _AgregarEventoState extends State<AgregarEvento> {
                 Container(
                   margin: EdgeInsets.all(10),
                   width: double.infinity,
-                  child: FilledButton(
-                    style: FilledButton.styleFrom(
-                      backgroundColor: Color(ColorsLetters().kWhiteCream),
-                      foregroundColor: Color(ColorsBackGround().kGreyDark),
+                  decoration: BoxDecoration(
+                    color: Color(ColorsLetters().kWhiteCream),
+                    border: Border.all(
+                      color: Color(
+                        ColorsLetters().kWhiteCream,
+                      ), // Color del borde
+                      width: 2,
                     ),
-                    child: Text("Ingresar Evento"),
+                  ),
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      padding: EdgeInsets.zero, // No altera el tamaño
+                      side: BorderSide.none, // Sin borde
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                    ),
+                    child: Text(
+                      "[S] Ingresar Evento",
+                      style: TextStyle(fontSize: 30),
+                    ),
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         try {
+                          // INSERTA LOS DATOS OBTENEDOS al COMBOBOX EVENTOS
                           await FsService().agregarEvento(
                             tituloCtrl.text.trim(),
                             lugarCtrl.text.trim(),

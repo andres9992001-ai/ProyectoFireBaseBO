@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthGoogleServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  // LOGIN DE USUARIO DE GOOGLE
   Future<User?> signInWithGoogle() async {
     // Asegura que siempre se muestre la cuenta de Google
     try {

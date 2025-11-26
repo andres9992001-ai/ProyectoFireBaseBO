@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:proyecto_firebase/constants.dart';
@@ -67,12 +67,16 @@ class _DetalleEventosPagesState extends State<DetalleEventosPages> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(Icons.date_range),
+                                Text(
+                                  '${evento['titulo']}',
+                                  style: TextStyle(fontSize: 40),
+                                ),
+
                                 Text(
                                   '[${DateFormat('dd-MM-yyyy').format(evento['fecha'].toDate())} | ${DateFormat('HH:mm').format(evento['fecha'].toDate())}]',
-                                  style: TextStyle(fontSize: 10),
+                                  style: TextStyle(fontSize: 20),
                                 ),
                               ],
                             ),
@@ -80,18 +84,14 @@ class _DetalleEventosPagesState extends State<DetalleEventosPages> {
                               thickness: 1,
                               color: Color(ColorsBackGround().kGreyDark),
                             ),
-                            Text(
-                              'Titulo: ${evento['titulo']}',
-                              style: TextStyle(fontSize: 40),
-                            ),
 
                             Text(
                               'Autor: ${evento['autor'].toString()}',
-                              style: TextStyle(fontSize: 10),
+                              style: TextStyle(fontSize: 25),
                             ),
                             Text(
-                              evento['lugar'].toString(),
-                              style: TextStyle(fontSize: 10),
+                              'Lugar del evento: ${evento['lugar'].toString()}',
+                              style: TextStyle(fontSize: 25),
                             ),
                             Spacer(),
                             Divider(
@@ -99,9 +99,41 @@ class _DetalleEventosPagesState extends State<DetalleEventosPages> {
                               color: Color(ColorsBackGround().kGreyDark),
                             ),
 
-                            Text(
-                              evento['categoria'].toString(),
-                              style: TextStyle(fontSize: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Categoria: ${evento['categoria'].toString()}',
+                                  style: TextStyle(fontSize: 25),
+                                ),
+
+                                StreamBuilder(
+                                  stream: FsService().categorias(),
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                    final categorias = snapshot.data!.docs;
+                                    // INTERACTUAS CON LOS DATOS QUE LLEGAN DEL SERVICE
+                                    // OTORGA EN ESTE CASO EL PRIMER VALOR QUE CUMPLA CON LA CONDICION
+                                    var filtrado = categorias.firstWhere(
+                                      (doc) =>
+                                          (doc)['nombreCategoria'] ==
+                                          evento['categoria'],
+                                    );
+                                    print(filtrado['imagen']);
+                                    return Image.asset(
+                                      'assets/images/${filtrado['imagen']}.jpg',
+                                      width: 70,
+                                      height: 70,
+                                    );
+                                  },
+                                ),
+
+                                //Image.asset('assets/image/$')
+                              ],
                             ),
                           ],
                         ),
@@ -131,12 +163,18 @@ class _DetalleEventosPagesState extends State<DetalleEventosPages> {
                 ),
                 onPressed: () async {
                   await FsService().borrarEventos(widget.eventoId);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Evento Borrado correctamente")),
+                  );
                   Navigator.pop(context);
                 },
                 //Navigator.pop(context),
                 child: Text(
                   "Borrar",
-                  style: TextStyle(color: Color(ColorsBackGround().kGreyDark)),
+                  style: TextStyle(
+                    color: Color(ColorsBackGround().kGreyDark),
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ),
@@ -162,7 +200,10 @@ class _DetalleEventosPagesState extends State<DetalleEventosPages> {
               //Navigator.pop(context),
               child: Text(
                 "volver",
-                style: TextStyle(color: Color(ColorsBackGround().kGreyDark)),
+                style: TextStyle(
+                  color: Color(ColorsBackGround().kGreyDark),
+                  fontSize: 20,
+                ),
               ),
             ),
           ),

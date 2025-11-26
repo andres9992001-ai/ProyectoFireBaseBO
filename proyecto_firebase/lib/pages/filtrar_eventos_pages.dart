@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+
 import 'package:intl/intl.dart';
 import 'package:proyecto_firebase/constants.dart';
+import 'package:proyecto_firebase/pages/detalle_eventos_pages.dart';
 import 'package:proyecto_firebase/services/data_services.dart';
 
 class FiltrarEventosPages extends StatefulWidget {
@@ -59,40 +60,24 @@ class _FiltrarEventosPagesState extends State<FiltrarEventosPages> {
                     itemCount: listaFiltrada.length,
                     itemBuilder: (context, index) {
                       var eventos = listaFiltrada[index];
-                      return Slidable(
-                        endActionPane: ActionPane(
-                          motion: ScrollMotion(),
-                          children: [
-                            if (FirebaseAuth.instance.currentUser!.email ==
-                                eventos['autor'].trim())
-                              SlidableAction(
-                                backgroundColor: Color(
-                                  ColorsLetters().kWhiteCream,
-                                ),
-                                label: ' [ Borrar ]',
-
-                                onPressed: (context) async {
-                                  if (FirebaseAuth
-                                          .instance
-                                          .currentUser!
-                                          .email ==
-                                      eventos['autor'].trim()) {
-                                    await FsService().borrarEventos(eventos.id);
-                                  }
-                                },
-                              ),
-                            if (FirebaseAuth.instance.currentUser!.email !=
-                                eventos['autor'].toString())
-                              SlidableAction(
-                                backgroundColor: Color(
-                                  ColorsLetters().kWhiteCream,
-                                ),
-                                label: ' [ No Eres el autor ]',
-
-                                onPressed: (context) async {},
-                              ),
-                          ],
+                      return OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          padding: EdgeInsets.zero, // No altera el tamaño
+                          side: BorderSide.none, // Sin borde
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
                         ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetalleEventosPages(
+                                eventoId: eventos.id,
+                                boolId: true,
+                              ),
+                            ),
+                          );
+                        },
                         child: Container(
                           padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
@@ -180,7 +165,10 @@ class _FiltrarEventosPagesState extends State<FiltrarEventosPages> {
               //Navigator.pop(context),
               child: Text(
                 "volver",
-                style: TextStyle(color: Color(ColorsBackGround().kGreyDark)),
+                style: TextStyle(
+                  color: Color(ColorsBackGround().kGreyDark),
+                  fontSize: 20,
+                ),
               ),
             ),
           ),

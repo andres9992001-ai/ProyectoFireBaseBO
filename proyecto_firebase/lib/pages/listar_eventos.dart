@@ -6,11 +6,6 @@ import 'package:proyecto_firebase/pages/filtrar_eventos_pages.dart';
 import 'package:proyecto_firebase/services/data_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-
-import 'package:proyecto_firebase/services/data_services.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ListarEventos extends StatefulWidget {
   const ListarEventos({super.key});
@@ -21,6 +16,7 @@ class ListarEventos extends StatefulWidget {
 
 class _ListarEventosState extends State<ListarEventos> {
   @override
+  // para refrescar pagina para obtner data actualizada cuando se entre al apartado
   void initState() {
     super.initState();
     cargarDatos();
@@ -51,7 +47,7 @@ class _ListarEventosState extends State<ListarEventos> {
                     Text(
                       "[ ${FirebaseAuth.instance.currentUser!.email ?? "none@User"} ]",
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 20,
                         color: Color(ColorsBackGround().kGreyDark),
                       ),
                     ),
@@ -65,8 +61,8 @@ class _ListarEventosState extends State<ListarEventos> {
                 Row(
                   children: [
                     Image.network(
-                      width: 30,
-                      height: 30,
+                      width: 40,
+                      height: 40,
                       FirebaseAuth.instance.currentUser!.photoURL ??
                           "None/image",
                     ),
@@ -74,7 +70,12 @@ class _ListarEventosState extends State<ListarEventos> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
+                          // data solicitada referente al usuario ingresado
                           " @${FirebaseAuth.instance.currentUser!.displayName}",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Color(ColorsBackGround().kGreyDark),
+                          ),
                         ),
                       ],
                     ),
@@ -86,6 +87,7 @@ class _ListarEventosState extends State<ListarEventos> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.all(10),
+              //Actualizacion CONSTANTE (tiempo real)
               child: StreamBuilder(
                 stream: FsService().eventos(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -169,7 +171,17 @@ class _ListarEventosState extends State<ListarEventos> {
                                   ),
                                 ],
                               ),
-
+                              Divider(
+                                thickness: 1,
+                                color: Color(ColorsLetters().kWhiteCream),
+                              ),
+                              Text(
+                                '${eventos['categoria']}',
+                                style: TextStyle(
+                                  color: Color(ColorsLetters().kWhiteCream),
+                                  fontSize: 20,
+                                ),
+                              ),
                               // Text(
                               //   eventos['autor'].toString(),
                               //   style: TextStyle(
@@ -222,8 +234,11 @@ class _ListarEventosState extends State<ListarEventos> {
               },
               //Navigator.pop(context),
               child: Text(
-                "Filtrar Por Usuario",
-                style: TextStyle(color: Color(ColorsBackGround().kGreyDark)),
+                "[F] Filtrar Por Usuario",
+                style: TextStyle(
+                  color: Color(ColorsBackGround().kGreyDark),
+                  fontSize: 25,
+                ),
               ),
             ),
           ),

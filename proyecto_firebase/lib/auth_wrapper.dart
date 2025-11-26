@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:proyecto_firebase/pages/agregar_evento.dart';
-import 'package:proyecto_firebase/pages/listar_eventos.dart';
+
 import 'package:proyecto_firebase/pages/login_pages.dart';
 import 'package:proyecto_firebase/pages/main_page.dart';
 
@@ -9,6 +8,7 @@ class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});
 
   @override
+  // valida las credenciales del usuario, en caso de que no esten validadas retorna al LoginPages();
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
