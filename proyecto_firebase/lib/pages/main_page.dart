@@ -33,6 +33,9 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
               color: Color(ColorsLetters().kWhiteCream),
               icon: Icon(Icons.exit_to_app),
               onPressed: () async {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text("Sesion Cerrada")));
                 await FirebaseAuth.instance.signOut();
                 await GoogleSignIn.instance.signOut();
               },
