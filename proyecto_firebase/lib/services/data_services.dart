@@ -30,7 +30,7 @@ class FsService {
   Stream<QuerySnapshot> eventos() {
     return FirebaseFirestore.instance
         .collection('eventos')
-        .orderBy('fecha', descending: false)
+        .orderBy('fecha', descending: true)
         .snapshots();
   }
 
@@ -44,3 +44,4 @@ class FsService {
     return FirebaseFirestore.instance.collection('eventos').doc(id).delete();
   }
 }
+
